@@ -24,9 +24,8 @@
     <script>
      let nickname = prompt("Introduza o nome pela qual os outros utilizadores vão poder ver");
       let text;
-      if (nickname == null || nickname == "") {
+      while (nickname == null || nickname == "") {
         alert("é necessario colocar um nome");
-      } else {
         nickname = prompt("Introduza o nome pela qual os outros utilizadores vão poder ver");
       }
     </script>
@@ -39,18 +38,19 @@
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
-    
+
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (input.value) {
           socket.emit('chat message', input.value);
+          socket.emit('nickname', nickname);
           input.value = '';
         }
       });
     
       socket.on('chat message', function(msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = nickname + ": " + msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });

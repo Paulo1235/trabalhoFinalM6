@@ -28,6 +28,9 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     console.log('message: ' + msg);
   });
+  socket.on('nickname', (nickname) =>{
+    console.log('nickname: ' + nickname);
+  });
 });
 
 io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' }); // This will emit the event to all connected sockets

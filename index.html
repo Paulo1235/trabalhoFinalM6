@@ -21,18 +21,18 @@
       <input id="input" autocomplete="off" /><button>Enviar</button>
     </form>
 
+
+
+<script src="/socket.io/socket.io.js"></script>
     <script>
+    
      let nickname = prompt("Introduza o nome pela qual os outros utilizadores vão poder ver");
       let text;
       while (nickname == null || nickname == "") {
         alert("é necessario colocar um nome");
         nickname = prompt("Introduza o nome pela qual os outros utilizadores vão poder ver");
       }
-    </script>
-
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
+   
       var socket = io();
     
       var messages = document.getElementById('messages');
@@ -47,7 +47,24 @@
           input.value = '';
         }
       });
-    
+
+      
+
+      socket.on('connected', function(con)
+      {
+          socket.on('user_connection',(ncon) =>
+            {
+              socket.emit('ncon');
+              socket.emit('nickname', nickname);
+            });
+
+        var item = document.createElement('li');
+        console.log( item.textContent);
+        item.textContent = nickname + ncon;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
       socket.on('chat message', function(msg) {
         var item = document.createElement('li');
         item.textContent = nickname + ": " + msg;

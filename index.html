@@ -47,7 +47,14 @@
           input.value = '';
         }
       });
-    
+      
+      socket.on('connection', function(nickname) {
+        var item = document.createElement('li');
+        item.textContent = nickname + "Conectou-se";
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+        
       socket.on('chat message', function(msg) {
         var item = document.createElement('li');
         item.textContent = nickname + ": " + msg;
